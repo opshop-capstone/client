@@ -1,9 +1,23 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../contexts";
-import { Button, CustomButton, Image, Input, ShopCard } from "../components";
+import {
+  Button,
+  CustomButton,
+  Image,
+  Input,
+  ShopCard,
+  Category,
+} from "../components";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScrollView, View } from "react-native";
+import {
+  FlatList,
+  ScrollView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import axios from "axios";
 
 const Container = styled.View`
@@ -36,7 +50,6 @@ const LowContainer = styled.View`
   justify-content: space-between;
   align-items: center;
 `;
-
 const PopularShop = ({ route, navigation }) => {
   const [popularShop, setPopularShop] = useState([]);
   const [categoryShop, setCategoryShop] = useState([]);
@@ -105,10 +118,10 @@ const PopularShop = ({ route, navigation }) => {
           <LowContainer>
             {[
               { name: "flame", title: "인기상점" },
-              { name: "location", title: "지역별" },
+              { name: "star", title: "인기상품" },
               { name: "apps", title: "카테고리" },
               { name: "heart", title: "찜한상품" },
-              { name: "star", title: "인기상품" },
+              { name: "location", title: "지역별" },
             ].map((a, i) => {
               return i == categoryKey ? (
                 <CustomButton
@@ -180,12 +193,45 @@ const PopularShop = ({ route, navigation }) => {
               />
             );
           })}
-        {categoryKey == 2 && <StyledText>카테고리</StyledText>}
-        {categoryKey == 3 && <StyledText>상의 하의 아우터 신발</StyledText>}
+        {categoryKey == 2 && (
+          <View>
+            <Category />
+          </View>
+        )}
+        {categoryKey == 3 && <StyledText>찜한 상품을 확인하세요!</StyledText>}
         {categoryKey == 4 && <StyledText>인기상품을 확인해보세요!</StyledText>}
       </ScrollView>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 20,
+  },
+  tab: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  activeTab: {
+    borderBottomWidth: 2,
+    borderBottomColor: "black",
+  },
+  tabText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "black",
+  },
+  itemContainer: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
+  },
+  itemText: {
+    fontSize: 16,
+    color: "black",
+  },
+});
 
 export default PopularShop;

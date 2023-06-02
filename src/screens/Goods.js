@@ -74,7 +74,7 @@ const Goods = ({ route, product, navigation }) => {
       },
     })
       .then((response) => {
-        console.log(response.data);
+        alert(response.data.message);
       })
       .catch((err) => {
         console.log(err.message);

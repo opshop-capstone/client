@@ -22,8 +22,8 @@ const BoxContainer = styled.View`
   background-color: ${({ theme }) => theme.background};
 `;
 const Contour = styled.View`
-  border-bottom-width: 2px;
-  border-color: ${({ theme }) => theme.imgBackground};
+  border-bottom-width: 6px;
+  border-color: grey;
   margin: 6px;
 `;
 const LowContainer = styled.View`
@@ -43,14 +43,17 @@ const ItemContainer = styled.View`
 `;
 
 const StyledText = styled.Text`
-  font-size: 24px;
+  font-size: 18px;
   color: #111;
   font-weight: 600;
   margin-bottom: 15px;
 `;
 
-const sliderTouch = (index) => {
-  alert(index + 1 + "번째 슬라이드");
+const sliderTouch = (index, fun) => {
+  switch (index) {
+    case 0:
+      fun;
+  }
 };
 
 const OpMain = ({ navigation }) => {
@@ -129,14 +132,17 @@ const OpMain = ({ navigation }) => {
         <View style={{ width: "100%", height: "30%", flex: 1 }}>
           <SliderBox
             images={[
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfDcI_0jxpFkyyTTJLScppbfluqc6VB_MdEw&usqp=CAU",
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSPLnqrA3M61JMMEkL2b3dvyYSJuwo5UkMgg&usqp=CAU",
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcaEucQHS70XZxXNOMNashZcMpuDWG_nAQJg&usqp=CAU",
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB-VJYZTX_fNSe78o5U0g7qIsWXt5gHbF0DQ&usqp=CAU",
+              require("../../assets/sliderImage7.jpeg"),
+              require("../../assets/sliderImage2.jpeg"),
+              require("../../assets/sliderImage3.jpeg"),
+              require("../../assets/sliderImage4.jpeg"),
+              require("../../assets/sliderImage.jpeg"),
+              require("../../assets/sliderImage5.jpeg"),
+              require("../../assets/sliderImage6.gif"),
             ]}
             onCurrentImagePressed={(index) => {
               console.log("image pressed index : " + index);
-              sliderTouch(index);
+              sliderTouch(index, navigation.navigate("Shop"));
             }}
             currentImageEmitter={(index) => {
               // 이미지가 바뀔때 어떤 동작을 할지 설정
@@ -165,7 +171,7 @@ const OpMain = ({ navigation }) => {
             }}
           >
             <Text style={{ fontSize: 10, color: "#ffffff" }}>
-              {state.currentIndex}/4
+              {state.currentIndex}/7
             </Text>
           </View>
         </View>
@@ -190,10 +196,10 @@ const OpMain = ({ navigation }) => {
           <LowContainer>
             {[
               { name: "flame", title: "인기상점" },
-              { name: "location", title: "지역별" },
-              { name: "apps", title: "카테고리" },
               { name: "star", title: "인기상품" },
+              { name: "apps", title: "카테고리" },
               { name: "heart", title: "찜한상품" },
+              { name: "location", title: "지역별" },
             ].map((a, i) => {
               return (
                 <CustomButton
@@ -210,7 +216,7 @@ const OpMain = ({ navigation }) => {
         </BoxContainer>
         <Contour />
         <BoxContainer>
-          <StyledText>박상호님을 위한 맞춤 Pick!</StyledText>
+          <StyledText>당신을 위한 추천 아이템</StyledText>
           <ItemContainer>
             {shopItem.map((a, i) => {
               return (

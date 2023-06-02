@@ -147,13 +147,6 @@ const Shop = ({ navigation, route }) => {
           <View>
             <StyledText>매장 인기 상품</StyledText>
             <ItemContainer>
-              {/* <ItemCard
-            onPress={() => {
-              navigation.navigate("Goods");
-            }}
-            url="https://m.oldlook.co.kr/web/product/big/ok31400.JPG"
-          /> */}
-
               {shopItem.map((a, i) => {
                 return (
                   <ItemCard

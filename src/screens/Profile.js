@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: 20,
     marginHorizontal: 15,
+    flexWrap: "wrap",
   },
   profile: {
     borderWidth: 1,

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     width: 60, // 원하는 크기로 지정
     height: 60,
     borderRadius: 8,
-    backgroundColor: "#d5d5d5",
+    backgroundColor: "#727272",
     justifyContent: "center",
     alignItems: "center",
   },

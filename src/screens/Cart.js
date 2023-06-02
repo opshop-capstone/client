@@ -92,9 +92,7 @@ const Cart = ({ navigation }) => {
         },
       })
         .then(function (response) {
-          setTimeout(() => {
-            spinner.stop();
-          }, 1000);
+          setTimeout(() => {}, 1000);
           const result = response.data.result;
 
           if (result) {
@@ -110,9 +108,7 @@ const Cart = ({ navigation }) => {
       console.log(e);
       alert(e);
     } finally {
-      return () => {
-        isMount = false;
-      };
+      spinner.stop();
     }
   }, [remove]);
 
