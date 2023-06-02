@@ -18,7 +18,7 @@ import {
   Input,
   ButtonNoFlex,
 } from "../components";
-import { ItemContext, UserContext } from "../contexts";
+import { ItemContext, ProgressContext, UserContext } from "../contexts";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import Postcode from "@actbase/react-daum-postcode";
@@ -64,6 +64,7 @@ const StyledButton = styled.Button`
 const EditAddress = ({ navigation, route }) => {
   const orderKey = route.params.orderKey;
   const { user, setUserInfo } = useContext(UserContext);
+  const { spinner } = useContext(ProgressContext);
 
   const [showModal, setShowModal] = useState(false);
   const { address, setAddress } = useContext(ItemContext);
@@ -133,6 +134,8 @@ const EditAddress = ({ navigation, route }) => {
 
   useEffect(() => {
     try {
+      spinner.start();
+
       axios({
         method: "get",
         url: "http://opshop.shop:3000/opshop/mypage/address",
@@ -145,9 +148,9 @@ const EditAddress = ({ navigation, route }) => {
 
           if (result) {
             console.log("result");
-            console.log(result);
-            // setAddress([...address, result]);
-            // console.log(address);
+            // console.log(result);
+            setAddress(result);
+            console.log(address);
           }
         })
         .catch(function (error) {
@@ -159,9 +162,7 @@ const EditAddress = ({ navigation, route }) => {
       console.log(e);
       alert(e);
     } finally {
-      return () => {
-        isMount = false;
-      };
+      spinner.stop();
     }
   }, [adding]);
   const handleContinueShopping2 = () => {

@@ -28,4 +28,8 @@ export const theme = {
   //Tab
   tabBtnActive: Colors.main,
   tabBtnInactive: Colors.grey_1,
+
+  //Spinner
+  spinnerBackground: Colors.black,
+  spinnerIndicator: Colors.white,
 };

@@ -117,7 +117,7 @@ const PopularShop = ({ route, navigation }) => {
                     width: 60, // 원하는 크기로 지정
                     height: 60,
                     borderRadius: 8,
-                    backgroundColor: "grey",
+                    backgroundColor: "white",
                     justifyContent: "center",
                     alignItems: "center",
                     backgroundColor: "#111",
@@ -156,7 +156,7 @@ const PopularShop = ({ route, navigation }) => {
                   key={i}
                   image={a.store_image_url}
                   title={a.store_name}
-                  description="description"
+                  description={a.content}
                   onPress={() => {
                     navigation.navigate("Shop", {
                       storeId: a.id,

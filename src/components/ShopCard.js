@@ -14,7 +14,9 @@ const ShopCard = ({
       <Image source={{ uri: image }} style={styles.image} />
       <View style={styles.info}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={styles.description} numberOfLines={2} ellipsizeMode="tail">
+          {description}
+        </Text>
         <Text style={styles.description}>{contactInformation}</Text>
         <Text style={styles.description}>{tel}</Text>
       </View>
@@ -55,6 +57,8 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     marginTop: 5,
+    numberOfLines: 3,
+    ellipsizeMode: "tail",
   },
 });
 

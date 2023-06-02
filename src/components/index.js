@@ -11,6 +11,7 @@ import AddToCartButton from "./AddToCartButton";
 import Checkbox from "./Checkbox";
 import ErrorMessage from "./ErrorMessage";
 import StoreCard from "./StoreCard";
+import Spinner from "./Spinner";
 
 export {
   Button,
@@ -25,4 +26,5 @@ export {
   Checkbox,
   ErrorMessage,
   StoreCard,
+  Spinner,
 };

@@ -97,6 +97,7 @@ const Goods = ({ route, product, navigation }) => {
             response.data.result.images[0].product_image.split(",");
 
           if (result) {
+            console.log(response.data.result);
             setStoreName(result.store_name);
             setTitle(result.title);
             setPrice(result.price);
@@ -135,6 +136,34 @@ const Goods = ({ route, product, navigation }) => {
     setCartMessage("");
     setShowModal(false);
   };
+  const handlelike = async () => {
+    await axios({
+      method: "post",
+      url: "http://opshop.shop:3000/opshop/products/liked",
+      headers: {
+        "x-access-token": `${user?.jwt}`,
+      },
+      params: {
+        productId: productId,
+      },
+    })
+      .then((response) => {
+        if (response) {
+          console.log(response.data);
+          alert(response.data.message);
+        } else {
+          alert("Error", response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        console.log(err.name);
+        console.log(err.stack);
+
+        alert("주문하기 실패");
+      });
+  };
+
   const StyledText = styled.Text`
     font-size: 14px;
     color: #111;
@@ -167,7 +196,7 @@ const Goods = ({ route, product, navigation }) => {
           iconName="heart"
           title="찜하기"
           onPress={() => {
-            alert("상품이 찜한 상품에 추가되었어요!");
+            handlelike();
           }}
           containerStyle={{
             width: 60, // 원하는 크기로 지정

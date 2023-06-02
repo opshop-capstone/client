@@ -3,7 +3,7 @@ import { Button, Image, Input, ErrorMessage } from "../components";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { UserContext } from "../contexts";
+import { ProgressContext, UserContext } from "../contexts";
 import { validateEmail, removeWhitespace } from "../utils";
 import axios from "axios";
 
@@ -27,6 +27,7 @@ const StyledText = styled.Text`
 const Signin = ({ navigation }) => {
   const { setUserInfo } = useContext(UserContext);
   const { user } = useContext(UserContext);
+  const { spinner } = useContext(ProgressContext);
 
   const insets = useSafeAreaInsets();
   const [email, setEmail] = useState("");
@@ -53,6 +54,8 @@ const Signin = ({ navigation }) => {
   };
 
   const _handleSigninBtnPress = async () => {
+    spinner.start();
+
     setTimeout(async () => {
       await axios
         .post("http://opshop.shop:3000/opshop/login", {
@@ -67,6 +70,7 @@ const Signin = ({ navigation }) => {
             const jwt = response.data.result.jwt;
             const userEmail = email;
             setUserInfo({ userId, userEmail, jwt });
+            spinner.stop();
           } else {
             alert("Error", response.data.message);
           }

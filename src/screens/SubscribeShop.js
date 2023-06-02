@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   View,
@@ -7,8 +7,12 @@ import {
   ScrollView,
   FlatList,
   Image,
+  TouchableOpacity,
 } from "react-native";
-import { ItemCard } from "../components";
+import { Button, ItemCard } from "../components";
+import axios from "axios";
+import { ProgressContext, UserContext } from "../contexts";
+import { Ionicons } from "@expo/vector-icons";
 
 const Container = styled.View`
   flex: 1;
@@ -27,51 +31,80 @@ const SUBSCRIBED_STORES = [
   { id: 5, name: "상점5", imageUrl: "https://placehold.it/150x150" },
 ];
 
-const NEW_PRODUCTS = [
-  {
-    id: 1,
-    storeId: 1,
-    name: "상품1",
-    imageUrl: "https://placehold.it/300x150",
-  },
-  {
-    id: 2,
-    storeId: 1,
-    name: "상품2",
-    imageUrl: "https://placehold.it/300x150",
-  },
-  {
-    id: 3,
-    storeId: 2,
-    name: "상품3",
-    imageUrl: "https://placehold.it/300x150",
-  },
-  {
-    id: 4,
-    storeId: 3,
-    name: "상품4",
-    imageUrl: "https://placehold.it/300x150",
-  },
-  {
-    id: 5,
-    storeId: 4,
-    name: "상품5",
-    imageUrl: "https://placehold.it/300x150",
-  },
-  {
-    id: 6,
-    storeId: 5,
-    name: "상품6",
-    imageUrl: "https://placehold.it/300x150",
-  },
-];
-
-const SubscribeShop = () => {
+const SubscribeShop = ({ navigation }) => {
   const [showNewProducts, setShowNewProducts] = useState(true);
+  const [likedProducts, setLikedProducts] = useState([]);
+  const [refresh, setRefresh] = useState(1);
+
+  const { spinner } = useContext(ProgressContext);
+  const { user } = useContext(UserContext);
+  useEffect(() => {
+    try {
+      axios({
+        method: "get",
+        url: "http://opshop.shop:3000/opshop/mypage/liked",
+        headers: {
+          "x-access-token": `${user?.jwt}`,
+        },
+      })
+        .then(function (response) {
+          const result = response.data.result;
+
+          if (result) {
+            setLikedProducts(result);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          console.log("error");
+          alert(error);
+        });
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    } finally {
+      return () => {
+        isMount = false;
+      };
+    }
+  }, [refresh]);
+
+  // useEffect(() => {
+  //   try {
+  //     axios({
+  //       method: "get",
+  //       url: "http://opshop.shop:3000/opshop/mypage/subscribe",
+  //       headers: {
+  //         "x-access-token": `${user?.jwt}`,
+  //       },
+  //     })
+  //       .then(function (response) {
+  //         const result = response.data.result;
+
+  //         if (result) {
+  //           console.log("result");
+  //           console.log(result);
+  //         }
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //         console.log("error");
+  //         alert(error);
+  //       });
+  //   } catch (e) {
+  //     console.log(e);
+  //     alert(e);
+  //   } finally {
+  //     return () => {
+  //       isMount = false;
+  //     };
+  //   }
+  // }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.subscribedStoresContainer}>
+        <Text style={styles.newProductsTitle}>내가 구독한 상점 </Text>
         <FlatList
           data={SUBSCRIBED_STORES}
           keyExtractor={(item) => item.id.toString()}
@@ -83,7 +116,7 @@ const SubscribeShop = () => {
                 source={{ uri: item.imageUrl }}
                 style={styles.storeItemImage}
               />
-              <Text style={styles.storeItemName}>{item.name}</Text>
+              <Text style={styles.storeItemName}>{item.name}ㅇㅇ</Text>
             </View>
           )}
         />
@@ -93,13 +126,13 @@ const SubscribeShop = () => {
           style={[styles.tab, showNewProducts && styles.activeTab]}
           onPress={() => setShowNewProducts(true)}
         >
-          신상품
+          찜한 상품
         </Text>
         <Text
           style={[styles.tab, !showNewProducts && styles.activeTab]}
           onPress={() => setShowNewProducts(false)}
         >
-          찜한 상품
+          신상품
         </Text>
       </View>
 
@@ -107,24 +140,44 @@ const SubscribeShop = () => {
         <ScrollView>
           <View style={styles.itemContainer}>
             {showNewProducts ? (
+              <>
+                <Text style={styles.newProductsTitle}>
+                  내가 찜한 상품을 확인해보세요!
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    spinner.start();
+                    setRefresh(!refresh);
+                    setTimeout(() => {
+                      spinner.stop();
+                    }, 300);
+                  }}
+                >
+                  <View style={styles.refreshButton}>
+                    <Ionicons name="refresh" size={24} color="white" />
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
               <Text style={styles.newProductsTitle}>
                 구독한 매장의 신상품을 확인해보세요!
               </Text>
-            ) : (
-              <Text style={styles.newProductsTitle}>
-                내가 찜한 상품을 확인해보세요!
-              </Text>
             )}
             {showNewProducts
-              ? NEW_PRODUCTS.map((product) => (
+              ? likedProducts.map((product, i) => (
                   <View key={product.id} style={styles.newProductItemContainer}>
-                    <Image
-                      source={{ uri: product.imageUrl }}
-                      style={styles.newProductItemImage}
+                    <ItemCard
+                      key={i}
+                      onPress={() => {
+                        navigation.navigate("Goods", {
+                          productId: product.product_id,
+                        });
+                      }}
+                      url={product.product_thumbnail}
+                      productTitle={product.title}
+                      shopName={product.store_name}
+                      price={product.price.toLocaleString() + "원"}
                     />
-                    <Text style={styles.newProductItemName}>
-                      {product.name}
-                    </Text>
                   </View>
                 ))
               : [1, 2, 3, 4, 5, 6].map((a, i) => {
@@ -229,6 +282,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "auto",
     flexWrap: "wrap",
+  },
+  refreshButton: {
+    width: 30,
+    height: 30,
+    backgroundColor: "black",
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

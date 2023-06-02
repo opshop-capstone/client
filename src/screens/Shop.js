@@ -70,62 +70,6 @@ const Shop = ({ navigation, route }) => {
   const [shopItem, setShopItem] = useState([{ d: "d" }, { b: "d" }]);
   const [shopInfo, setShopInfo] = useState({});
   const { testItems, setTestItems } = useContext(ItemContext);
-  // useEffect(() => {
-  //   try {
-  //     // 상품 상세 api
-  //     axios
-  //       .get(`http://opshop.shop:3000/opshop/stores/${storeId}`)
-
-  //       .then(function (response) {
-  //         const result = response.data.result;
-
-  //         if (result) {
-  //           setShopItem([...result]);
-  //           setTestItems([...result]);
-  //           //추천 아이템 연동 전  테스트를 위한 임시 Context
-  //         }
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //         alert(error);
-  //       });
-  //   } catch (e) {
-  //     console.log(e);
-  //     alert(e);
-  //   } finally {
-  //     return () => {
-  //       isMount = false;
-  //     };
-  //   }
-  // }, []);
-  // // stores info 테스트
-  // useEffect(() => {
-  //   try {
-  //     // 상품 상세 api
-  //     axios
-  //       .get(`http://opshop.shop:3000/opshop/stores/2/info`)
-
-  //       .then(function (response) {
-  //         const result = response.data;
-
-  //         console.log("result");
-  //         if (result) {
-  //           console.log(result);
-  //         }
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //         alert(error);
-  //       });
-  //   } catch (e) {
-  //     console.log(e);
-  //     alert(e);
-  //   } finally {
-  //     return () => {
-  //       isMount = false;
-  //     };
-  //   }
-  // }, []);
 
   // 동시에 받아오기
   useEffect(() => {
@@ -140,8 +84,8 @@ const Shop = ({ navigation, route }) => {
 
           if (result) {
             setShopItem([...result]);
-            setShopInfo(response2.data.result);
-            console.log(result);
+            setShopInfo(...response2.data.result);
+            console.log(response1.data.result);
             // setTestItems([...result]);
           }
         })

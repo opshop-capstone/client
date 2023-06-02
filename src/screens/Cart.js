@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import styled from "styled-components";
 import { Button } from "../components";
-import { ItemContext, UserContext } from "../contexts";
+import { ItemContext, ProgressContext, UserContext } from "../contexts";
 import { Feather } from "@expo/vector-icons";
 import axios from "axios";
 import { CheckBox } from "react-native-elements";
@@ -79,8 +79,11 @@ const Cart = ({ navigation }) => {
 
   // 카트에 있는 상품 로드
   const { user, setUserInfo } = useContext(UserContext);
+  const { spinner } = useContext(ProgressContext);
   useEffect(() => {
     try {
+      spinner.start();
+
       axios({
         method: "get",
         url: "http://opshop.shop:3000/opshop/carts",
@@ -89,10 +92,12 @@ const Cart = ({ navigation }) => {
         },
       })
         .then(function (response) {
+          setTimeout(() => {
+            spinner.stop();
+          }, 1000);
           const result = response.data.result;
 
           if (result) {
-            // console.log("removeItem 할때마다 로드 :" + result);
             setCartItems(result);
           }
         })
@@ -134,7 +139,6 @@ const Cart = ({ navigation }) => {
               <Text style={styles.productPrice}>{`${parseInt(
                 item.price
               ).toLocaleString()}원`}</Text>
-              <CheckBox title="선택" />
             </View>
             <TouchableOpacity
               onPress={() => {

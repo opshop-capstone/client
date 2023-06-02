@@ -1,5 +1,5 @@
 import { StatusBar } from "react-native";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, LogBox } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./theme";
 import Navigation from "./navigation";
@@ -8,9 +8,12 @@ import {
   ItemContext,
   CartProvider,
   UserContext,
+  ProgressProvider,
 } from "./contexts";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+
+LogBox.ignoreAllLogs();
 
 export default function App() {
   // const { user, setUserInfo } = useContext(UserContext);
@@ -84,28 +87,31 @@ export default function App() {
     //   address: "용인시 수지구 죽전로 152, 단국대학교",
     // },
   ]);
+
   return (
     <ThemeProvider theme={theme}>
-      <UserProvider>
-        <CartProvider>
-          <ItemContext.Provider
-            value={{
-              cartItems,
-              setCartItems,
-              address,
-              setAddress,
-              testItems,
-              setTestItems,
-            }}
-          >
-            <StatusBar
-              backgroundColor={theme.background}
-              barStyle="dark-content"
-            />
-            <Navigation />
-          </ItemContext.Provider>
-        </CartProvider>
-      </UserProvider>
+      <ProgressProvider>
+        <UserProvider>
+          <CartProvider>
+            <ItemContext.Provider
+              value={{
+                cartItems,
+                setCartItems,
+                address,
+                setAddress,
+                testItems,
+                setTestItems,
+              }}
+            >
+              <StatusBar
+                backgroundColor={theme.background}
+                barStyle="dark-content"
+              />
+              <Navigation />
+            </ItemContext.Provider>
+          </CartProvider>
+        </UserProvider>
+      </ProgressProvider>
     </ThemeProvider>
   );
 }

@@ -16,7 +16,13 @@ const StoreCard = () => {
         <Text style={styles.storeName}>상점 이름</Text>
         <Text style={styles.storeNumber}>전화번호</Text>
         <Text style={styles.instagramId}>인스타그램 아이디</Text>
-        <Text style={styles.storeAddress}>매장주소</Text>
+        <Text
+          style={styles.storeAddress}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          매장주소
+        </Text>
         {/* <Button title="상점 구독하기" /> */}
       </View>
     </View>
