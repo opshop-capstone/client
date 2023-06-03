@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../contexts";
 import { Button, Input } from "../components";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import axios from "axios";
 
 const Container = styled.View`
   flex: 1;
@@ -20,6 +21,35 @@ const StyledText = styled.Text`
 
 const Profile = ({ navigation }) => {
   const { user, setUserInfo } = useContext(UserContext);
+  const [profile, setProfile] = useState({});
+  useEffect(() => {
+    try {
+      axios({
+        method: "get",
+        url: "http://opshop.shop:3000/opshop/mypage",
+        headers: {
+          "x-access-token": `${user?.jwt}`,
+        },
+      })
+        .then(function (response) {
+          const result = response.data.result;
+
+          if (result) {
+            console.log(result);
+            setProfile(...result);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          console.log("error");
+          alert(error);
+        });
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    } finally {
+    }
+  }, []);
   return (
     <Container>
       <View style={styles.header}>
@@ -30,7 +60,7 @@ const Profile = ({ navigation }) => {
           />
         </View>
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>박상호</Text>
+          <Text style={styles.name}>{profile.name}</Text>
           <Text style={styles.email}>{user.userEmail}</Text>
         </View>
       </View>

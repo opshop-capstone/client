@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled, { ThemeContext } from "styled-components/native";
 import { FlatList, View } from "react-native";
 import { Image, IconButton, ItemCard, CustomButton } from "../components";
 import { SliderBox } from "react-native-image-slider-box";
@@ -49,10 +49,10 @@ const StyledText = styled.Text`
   margin-bottom: 15px;
 `;
 
-const sliderTouch = (index, fun) => {
+const sliderTouch = (index, navigation) => {
   switch (index) {
     case 0:
-      fun;
+      navigation.navigate("Cart");
   }
 };
 
@@ -67,22 +67,22 @@ const OpMain = ({ navigation }) => {
 
   useEffect(() => {
     try {
-      // 상품 상세 api
-      axios
-        .get(`http://opshop.shop:3000/opshop/products`)
-
+      axios({
+        method: "get",
+        url: "http://opshop.shop:3000/opshop/products/reco/lists",
+        headers: {
+          "x-access-token": `${user?.jwt}`,
+        },
+      })
         .then(function (response) {
           const result = response.data.result;
-          console.log(result);
           if (result) {
             setShopItem(result);
-            // console.log(shopItem[0].product_thumbnail);
-            console.log("shopItem");
-            console.log(shopItem);
           }
         })
         .catch(function (error) {
           console.log(error);
+          console.log("error");
           alert(error);
         });
     } catch (e) {
@@ -109,7 +109,6 @@ const OpMain = ({ navigation }) => {
           if (result) {
             console.log("result");
             setAddress([...address, result]);
-            console.log(address);
           }
         })
         .catch(function (error) {
@@ -142,7 +141,7 @@ const OpMain = ({ navigation }) => {
             ]}
             onCurrentImagePressed={(index) => {
               console.log("image pressed index : " + index);
-              sliderTouch(index, navigation.navigate("Shop"));
+              sliderTouch(index, navigation);
             }}
             currentImageEmitter={(index) => {
               // 이미지가 바뀔때 어떤 동작을 할지 설정
@@ -218,20 +217,24 @@ const OpMain = ({ navigation }) => {
         <BoxContainer>
           <StyledText>당신을 위한 추천 아이템</StyledText>
           <ItemContainer>
-            {shopItem.map((a, i) => {
-              return (
-                <ItemCard
-                  key={i}
-                  onPress={() => {
-                    navigation.navigate("Goods", { productId: a.product_id });
-                  }}
-                  url={a.thumbnail}
-                  productTitle={a.title}
-                  shopName={a.store_name}
-                  price={a.price.toLocaleString() + "원"}
-                />
-              );
-            })}
+            {shopItem == [] ? (
+              <StyledText>로그인 후 제공됩니다.</StyledText>
+            ) : (
+              shopItem.map((a, i) => {
+                return (
+                  <ItemCard
+                    key={i}
+                    onPress={() => {
+                      navigation.navigate("Goods", { productId: a.product_id });
+                    }}
+                    url={a.thumbnail}
+                    productTitle={a.title}
+                    shopName={a.store_name}
+                    price={a.price.toLocaleString() + "원"}
+                  />
+                );
+              })
+            )}
           </ItemContainer>
         </BoxContainer>
       </ScrollView>

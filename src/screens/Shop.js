@@ -130,7 +130,7 @@ const Shop = ({ navigation, route }) => {
                 height: 60,
                 borderRadius: 8,
                 marginRight: 16,
-                backgroundColor: item.id == categoryKey ? "black" : "#d5d5d5",
+                backgroundColor: item.id == categoryKey ? "black" : "#727272",
                 justifyContent: "center",
                 alignItems: "center",
               }}

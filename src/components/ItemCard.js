@@ -18,7 +18,7 @@ const ProfileImage = styled.Image`
   border-radius: 10px;
 
   resize-mode: contain;
-  background-color: ${({ theme }) => theme.imgBackground};
+  background-color: #727272;
 `;
 // 넘치게 배열할거면 width, height 설정 %로 하지말자 - 스크롤뷰 작동을 안함
 

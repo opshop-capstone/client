@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { UserContext } from "../contexts";
+import { ProgressContext, UserContext } from "../contexts";
 import {
   Button,
   CustomButton,
@@ -7,6 +7,8 @@ import {
   Input,
   ShopCard,
   Category,
+  PopularProducts,
+  ItemCard,
 } from "../components";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -19,6 +21,7 @@ import {
   Text,
 } from "react-native";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
 
 const Container = styled.View`
   flex: 1;
@@ -28,7 +31,7 @@ const Container = styled.View`
 `;
 
 const StyledText = styled.Text`
-  font-size: 30px;
+  font-size: 16px;
   color: #111;
   font-weight: 600;
   margin-bottom: 15px;
@@ -49,6 +52,14 @@ const LowContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const ItemContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  overflow: auto;
+  flex-wrap: wrap;
 `;
 const PopularShop = ({ route, navigation }) => {
   const [popularShop, setPopularShop] = useState([]);
@@ -80,16 +91,29 @@ const PopularShop = ({ route, navigation }) => {
       };
     }
   }, []);
+
+  //////////찜한 상품 로드
+  const [likedProducts, setLikedProducts] = useState([]);
+
+  const [refresh, setRefresh] = useState(1);
+
+  const { spinner } = useContext(ProgressContext);
+  const { user } = useContext(UserContext);
   useEffect(() => {
     try {
-      // 왜 response.data.result값이 undefined가 오는거지
-      axios
-        .get("http://opshop.shop:3000/opshop/category")
-
+      axios({
+        method: "get",
+        url: "http://opshop.shop:3000/opshop/mypage/liked",
+        headers: {
+          "x-access-token": `${user?.jwt}`,
+        },
+      })
         .then(function (response) {
           const result = response.data.result;
+
           if (result) {
             console.log(result);
+            setLikedProducts(result);
           }
         })
         .catch(function (error) {
@@ -105,9 +129,10 @@ const PopularShop = ({ route, navigation }) => {
         isMount = false;
       };
     }
-  }, []);
+  }, [refresh]);
+  ///////////////
+
   const { key } = route.params; // 전 화면에서 눌렀던 위에 카테고리 버튼 key받아오는
-  useEffect(() => {}, [{ key }]);
   const [categoryKey, setCategoryKey] = useState(key);
   const { setUser } = useContext(UserContext);
 
@@ -184,21 +209,53 @@ const PopularShop = ({ route, navigation }) => {
 
         {categoryKey == 1 &&
           [1, 2, 3, 4, 5, 6].map((a, i) => {
-            return (
-              <ShopCard
-                key={i}
-                image="https://ifh.cc/g/M2TJZp.png"
-                title="상점명"
-                description="description"
-              />
-            );
+            return <PopularProducts navigation={navigation} />;
           })}
         {categoryKey == 2 && (
           <View>
-            <Category />
+            <Category navigation={navigation} />
           </View>
         )}
-        {categoryKey == 3 && <StyledText>찜한 상품을 확인하세요!</StyledText>}
+        {categoryKey == 3 && (
+          <>
+            <View style={styles.rowItemContainer}>
+              <Text style={styles.newProductsTitle}>
+                내가 찜한 상품을 확인해보세요!
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  spinner.start();
+                  setRefresh(!refresh);
+                  setTimeout(() => {
+                    spinner.stop();
+                  }, 300);
+                }}
+              >
+                <View style={styles.refreshButton}>
+                  <Ionicons name="refresh" size={24} color="white" />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <ItemContainer>
+              {likedProducts.map((product, i) => (
+                <View key={product.id} style={styles.newProductItemContainer}>
+                  <ItemCard
+                    key={i}
+                    onPress={() => {
+                      navigation.navigate("Goods", {
+                        productId: product.product_id,
+                      });
+                    }}
+                    url={product.product_thumbnail}
+                    productTitle={product.title}
+                    shopName={product.store_name}
+                    price={product.price.toLocaleString() + "원"}
+                  />
+                </View>
+              ))}
+            </ItemContainer>
+          </>
+        )}
         {categoryKey == 4 && <StyledText>인기상품을 확인해보세요!</StyledText>}
       </ScrollView>
     </Container>
@@ -223,6 +280,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
+  newProductsTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
   itemContainer: {
     padding: 16,
     borderBottomWidth: 1,
@@ -231,6 +293,26 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
     color: "black",
+  },
+  refreshButton: {
+    width: 30,
+    height: 30,
+    backgroundColor: "black",
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  rowItemContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    overflow: "auto",
+    flexWrap: "wrap",
+  },
+  newProductItemContainer: {
+    marginRight: 16,
+    width: 150,
+    height: 200,
   },
 });
 

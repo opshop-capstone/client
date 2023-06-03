@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import styled from "styled-components/native";
 import {
   View,
   FlatList,
@@ -6,16 +8,71 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
+import ItemCard from "./ItemCard";
+import { ProgressContext } from "../contexts";
 
-const Category = () => {
-  const [selectedCategory, setSelectedCategory] = useState("상의");
+const ItemContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  overflow: auto;
+  flex-wrap: wrap;
+`;
+const Category = ({ navigation }) => {
+  const [selectedCategory, setSelectedCategory] = useState("아우터");
+  const [categoryId, setCategoryId] = useState(1);
+  const [categoryItem, setCategoryItem] = useState([]);
+  const { spinner } = useContext(ProgressContext);
 
-  const categories = ["상의", "아우터", "원피스", "가방", "신발", "악세사리"];
+  useEffect(() => {
+    try {
+      // 왜 response.data.result값이 undefined가 오는거지
+      axios
+        .get("http://opshop.shop:3000/opshop/categories")
 
-  const renderTab = ({ item }) => (
+        .then(function (response) {
+          const result = response.data.result;
+          if (result) {
+            console.log(result);
+
+            setCategoryItem(result[categoryId]);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          console.log("error");
+          alert(error);
+        });
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    } finally {
+    }
+  }, [categoryId]);
+
+  const categories = [
+    { category: "아우터", category_id: 1 },
+    { category: "하의", category_id: 2 },
+    { category: "원피스", category_id: 3 },
+    { category: "상의", category_id: 4 },
+    { category: "신발", category_id: 5 },
+    { category: "패션잡화", category_id: 6 },
+    { category: "럭셔리", category_id: 7 },
+  ];
+
+  const renderTab = (item, id) => (
     <TouchableOpacity
       style={[styles.tab, item === selectedCategory && styles.activeTab]}
-      onPress={() => setSelectedCategory(item)}
+      onPress={() => {
+        spinner.start();
+
+        setSelectedCategory(item);
+        setCategoryId(id);
+        console.log(categoryId);
+        setTimeout(() => {
+          spinner.stop();
+        }, 300);
+      }}
     >
       <Text style={styles.tabText}>{item}</Text>
     </TouchableOpacity>
@@ -33,14 +90,26 @@ const Category = () => {
         data={categories}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={renderTab}
+        renderItem={({ item }) => renderTab(item.category, item.category_id)}
         keyExtractor={(item) => item}
       />
-      <FlatList
-        data={getDataForCategory(selectedCategory)}
-        renderItem={renderItem}
-        keyExtractor={(item) => item}
-      />
+      <ItemContainer>
+        {categoryItem.map((a, i) => {
+          return (
+            <ItemCard
+              key={i}
+              onPress={() =>
+                navigation.navigate("Goods", {
+                  productId: a.product_id,
+                })
+              }
+              url={a.product_thumbnail}
+              productTitle={a.product_title}
+              shopName={a.category}
+            />
+          );
+        })}
+      </ItemContainer>
     </View>
   );
 };
@@ -60,6 +129,7 @@ const styles = StyleSheet.create({
   tab: {
     paddingHorizontal: 12,
     paddingVertical: 8,
+    marginBottom: 10,
   },
   activeTab: {
     borderBottomWidth: 2,

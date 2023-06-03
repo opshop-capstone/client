@@ -13,6 +13,7 @@ import ErrorMessage from "./ErrorMessage";
 import StoreCard from "./StoreCard";
 import Spinner from "./Spinner";
 import Category from "./Category";
+import PopularProducts from "./PopularProducts";
 
 export {
   Button,
@@ -29,4 +30,5 @@ export {
   StoreCard,
   Spinner,
   Category,
+  PopularProducts,
 };

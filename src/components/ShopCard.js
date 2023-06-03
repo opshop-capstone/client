@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     marginTop: 5,
-    numberOfLines: 3,
+    numberOfLines: "3",
     ellipsizeMode: "tail",
   },
 });
