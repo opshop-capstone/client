@@ -16,7 +16,6 @@ const ProfileImage = styled.Image`
   width: 145px;
   height: 145px;
   border-radius: 10px;
-
   resize-mode: contain;
   background-color: #727272;
 `;

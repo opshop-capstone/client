@@ -17,7 +17,6 @@ const Container = styled.View`
 `;
 const BoxContainer = styled.View`
   flex: 1;
-  padding: 10px;
   margin: 5px;
   background-color: ${({ theme }) => theme.background};
 `;
@@ -52,7 +51,22 @@ const StyledText = styled.Text`
 const sliderTouch = (index, navigation) => {
   switch (index) {
     case 0:
-      navigation.navigate("Cart");
+      navigation.navigate("Shop", { storeId: 3 });
+      break;
+    case 1:
+      navigation.navigate("Shop", { storeId: 2 });
+      break;
+    case 2:
+      navigation.navigate("Shop", { storeId: 5 });
+      break;
+    case 3:
+      navigation.navigate("Shop", { storeId: 5 });
+      break;
+    case 4:
+      navigation.navigate("Shop", { storeId: 4 });
+      break;
+    default:
+      break;
   }
 };
 
@@ -174,23 +188,7 @@ const OpMain = ({ navigation }) => {
             </Text>
           </View>
         </View>
-        {/* <SliderBox
-          images={[
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfDcI_0jxpFkyyTTJLScppbfluqc6VB_MdEw&usqp=CAU",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSPLnqrA3M61JMMEkL2b3dvyYSJuwo5UkMgg&usqp=CAU",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcaEucQHS70XZxXNOMNashZcMpuDWG_nAQJg&usqp=CAU",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB-VJYZTX_fNSe78o5U0g7qIsWXt5gHbF0DQ&usqp=CAU",
-          ]}
-          onCurrentImagePressed={(index) => {
-            console.log("image pressed index : " + index);
-            sliderTouch(index);
-          }}
-          dotColor="rgba(0,0,0,0)"
-          inactiveDotColor="rgba(0,0,0,0)"
-          resizeMode="cover"
-          autoplay
-          circleLoop
-        /> */}
+
         <BoxContainer>
           <LowContainer>
             {[
@@ -217,7 +215,7 @@ const OpMain = ({ navigation }) => {
         <BoxContainer>
           <StyledText>당신을 위한 추천 아이템</StyledText>
           <ItemContainer>
-            {shopItem == [] ? (
+            {shopItem == undefined ? (
               <StyledText>로그인 후 제공됩니다.</StyledText>
             ) : (
               shopItem.map((a, i) => {

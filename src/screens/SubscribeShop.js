@@ -116,7 +116,7 @@ const SubscribeShop = ({ navigation }) => {
                 source={{ uri: item.imageUrl }}
                 style={styles.storeItemImage}
               />
-              <Text style={styles.storeItemName}>{item.name}ㅇㅇ</Text>
+              <Text style={styles.storeItemName}>ㅇㅇ</Text>
             </View>
           )}
         />
@@ -218,10 +218,9 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     height: 60,
-    borderRadius: 30,
   },
   storeItemName: {
-    marginTop: 8,
+    marginTop: 10,
     fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",

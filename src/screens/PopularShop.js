@@ -207,10 +207,7 @@ const PopularShop = ({ route, navigation }) => {
           </View>
         )}
 
-        {categoryKey == 1 &&
-          [1, 2, 3, 4, 5, 6].map((a, i) => {
-            return <PopularProducts navigation={navigation} />;
-          })}
+        {categoryKey == 1 && <PopularProducts navigation={navigation} />}
         {categoryKey == 2 && (
           <View>
             <Category navigation={navigation} />

@@ -73,6 +73,7 @@ const Shop = ({ navigation, route }) => {
 
   // 동시에 받아오기
   useEffect(() => {
+    console.log(storeId);
     axios
       .all([
         axios.get(`http://opshop.shop:3000/opshop/stores/${storeId}`),
@@ -85,7 +86,6 @@ const Shop = ({ navigation, route }) => {
           if (result) {
             setShopItem([...result]);
             setShopInfo(...response2.data.result);
-            console.log(response1.data.result);
             // setTestItems([...result]);
           }
         })

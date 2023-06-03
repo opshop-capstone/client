@@ -53,7 +53,10 @@ const Main = () => {
           headerTitle: () => <LogoTitle />,
           headerRight: () => (
             <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
               <IconButton
                 name="search"
                 onPress={() => navigation.navigate("SearchPage")}
@@ -75,8 +78,14 @@ const Main = () => {
           headerTitle: () => <LogoTitle />,
           headerRight: () => (
             <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
-              <IconButton name="search" onPress={() => alert("test")} />
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
+              <IconButton
+                name="search"
+                onPress={() => navigation.navigate("SearchPage")}
+              />
               <IconButton
                 name="cart"
                 onPress={() => navigation.navigate("Cart")}
@@ -93,8 +102,14 @@ const Main = () => {
           headerTitle: "상점",
           headerRight: () => (
             <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
-              <IconButton name="search" onPress={() => alert("test")} />
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
+              <IconButton
+                name="search"
+                onPress={() => navigation.navigate("SearchPage")}
+              />
               <IconButton
                 name="cart"
                 onPress={() => navigation.navigate("Cart")}
@@ -111,8 +126,14 @@ const Main = () => {
           headerTitle: "상품",
           headerRight: () => (
             <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
-              <IconButton name="search" onPress={() => alert("test")} />
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
+              <IconButton
+                name="search"
+                onPress={() => navigation.navigate("SearchPage")}
+              />
               <IconButton
                 name="cart"
                 onPress={() => navigation.navigate("Cart")}
@@ -129,8 +150,14 @@ const Main = () => {
           headerTitle: "장바구니",
           headerRight: () => (
             <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
-              <IconButton name="search" onPress={() => alert("test")} />
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
+              <IconButton
+                name="search"
+                onPress={() => navigation.navigate("SearchPage")}
+              />
               <IconButton
                 name="cart"
                 onPress={() => navigation.navigate("Cart")}
@@ -147,8 +174,14 @@ const Main = () => {
           headerTitle: "주문하기",
           headerRight: () => (
             <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
-              <IconButton name="search" onPress={() => alert("test")} />
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
+              <IconButton
+                name="search"
+                onPress={() => navigation.navigate("SearchPage")}
+              />
               <IconButton
                 name="cart"
                 onPress={() => navigation.navigate("Cart")}
@@ -157,24 +190,7 @@ const Main = () => {
           ),
         })}
       />
-      {/* <Stack.Screen
-        name="MyPage"
-        component={MyPage}
-        options={({ navigation }) => ({
-          title: "Main",
-          headerTitle: "주문하기",
-          headerRight: () => (
-            <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
-              <IconButton name="search" onPress={() => alert("test")} />
-              <IconButton
-                name="cart"
-                onPress={() => navigation.navigate("Cart")}
-              />
-            </Container>
-          ),
-        })}
-      /> */}
+
       <Stack.Screen
         name="OrderHistory"
         component={OrderHistory}
@@ -183,8 +199,14 @@ const Main = () => {
           headerTitle: "주문 내역 확인",
           headerRight: () => (
             <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
-              <IconButton name="search" onPress={() => alert("test")} />
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
+              <IconButton
+                name="search"
+                onPress={() => navigation.navigate("SearchPage")}
+              />
               <IconButton
                 name="cart"
                 onPress={() => navigation.navigate("Cart")}
@@ -201,8 +223,14 @@ const Main = () => {
           headerTitle: "회원 정보 수정",
           headerRight: () => (
             <Container>
-              <IconButton name="menu" onPress={() => alert("test")} />
-              <IconButton name="search" onPress={() => alert("test")} />
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
+              <IconButton
+                name="search"
+                onPress={() => navigation.navigate("SearchPage")}
+              />
               <IconButton
                 name="cart"
                 onPress={() => navigation.navigate("Cart")}
@@ -215,9 +243,22 @@ const Main = () => {
         name="SearchPage"
         component={SearchPage}
         options={({ navigation }) => ({
+          title: "Main",
+          headerTitle: "검색",
           headerRight: () => (
             <Container>
-              <Input></Input>
+              <IconButton
+                name="menu"
+                onPress={() => navigation.navigate("PopularShop", { key: 2 })}
+              />
+              <IconButton
+                name="search"
+                onPress={() => navigation.navigate("SearchPage")}
+              />
+              <IconButton
+                name="cart"
+                onPress={() => navigation.navigate("Cart")}
+              />
             </Container>
           ),
         })}

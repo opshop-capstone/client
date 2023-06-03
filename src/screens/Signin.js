@@ -118,7 +118,7 @@ const Signin = ({ navigation }) => {
           ref={refPassword}
           label="비밀번호"
           placeholder="password"
-          returnKeyType="next"
+          returnKeyType={_handleSigninBtnPress}
           value={password}
           onChangeText={_handlePasswordChange}
           isPassword={true}
