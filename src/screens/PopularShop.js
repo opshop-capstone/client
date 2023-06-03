@@ -41,6 +41,7 @@ const BoxContainer = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.background};
 `;
+
 const Contour = styled.View`
   border-bottom-width: 2px;
   border-color: ${({ theme }) => theme.imgBackground};
@@ -233,6 +234,7 @@ const PopularShop = ({ route, navigation }) => {
                 </View>
               </TouchableOpacity>
             </View>
+            <Contour />
             <ItemContainer>
               {likedProducts.map((product, i) => (
                 <View key={product.id} style={styles.newProductItemContainer}>
@@ -253,7 +255,7 @@ const PopularShop = ({ route, navigation }) => {
             </ItemContainer>
           </>
         )}
-        {categoryKey == 4 && <StyledText>인기상품을 확인해보세요!</StyledText>}
+        {categoryKey == 4 && <StyledText>개발 예정</StyledText>}
       </ScrollView>
     </Container>
   );
@@ -278,9 +280,9 @@ const styles = StyleSheet.create({
     color: "black",
   },
   newProductsTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 16,
+    margin: 16,
   },
   itemContainer: {
     padding: 16,
@@ -305,6 +307,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "auto",
     flexWrap: "wrap",
+    marginVertical: 2,
+    paddingHorizontal: 20,
   },
   newProductItemContainer: {
     marginRight: 16,

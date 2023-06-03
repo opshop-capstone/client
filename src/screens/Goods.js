@@ -75,6 +75,7 @@ const Goods = ({ route, product, navigation }) => {
     })
       .then((response) => {
         alert(response.data.message);
+        handleAddToCart();
       })
       .catch((err) => {
         console.log(err.message);
@@ -230,7 +231,6 @@ const Goods = ({ route, product, navigation }) => {
                   image: `${imageUrl}`,
                 },
               ]);
-              handleAddToCart();
               AddToCartHandler();
             };
             duplication == -1

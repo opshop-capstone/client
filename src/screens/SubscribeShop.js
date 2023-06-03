@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    fontWeight: 900,
     color: "#d9d9d9",
     fontSize: 18,
   },

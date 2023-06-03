@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { ItemContext, UserContext } from "../contexts";
 import {
   Button,
+  ButtonNoFlex,
   CustomButton,
   ItemCard,
   ShopCard,
@@ -9,8 +10,16 @@ import {
 } from "../components";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { FlatList, ScrollView, View } from "react-native";
+import {
+  FlatList,
+  ScrollView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
 
 const Container = styled.View`
   flex: 1;
@@ -28,8 +37,7 @@ const StyledText = styled.Text`
 `;
 
 const BoxContainer = styled.View`
-  flex: 1;
-  background-color: ${({ theme }) => theme.background};
+  margin: 10px;
 `;
 const Contour = styled.View`
   margin: 10px;
@@ -39,10 +47,10 @@ const Contour = styled.View`
 
 const LowContainer = styled.View`
   position: sticky;
-  margin: 25px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding-horizontal: 15;
 `;
 
 const ItemContainer = styled.View`
@@ -70,7 +78,17 @@ const Shop = ({ navigation, route }) => {
   const [shopItem, setShopItem] = useState([{ d: "d" }, { b: "d" }]);
   const [shopInfo, setShopInfo] = useState({});
   const { testItems, setTestItems } = useContext(ItemContext);
-
+  //아이콘
+  const BlackButton = ({ icon, text, onPress }) => {
+    return (
+      <TouchableOpacity style={styles.button} onPress={onPress}>
+        <View style={styles.iconContainer}>
+          <Ionicons name={icon} size={24} color="white" />
+        </View>
+        <Text style={styles.text}>{text}</Text>
+      </TouchableOpacity>
+    );
+  };
   // 동시에 받아오기
   useEffect(() => {
     console.log(storeId);
@@ -98,7 +116,7 @@ const Shop = ({ navigation, route }) => {
   return (
     <Container>
       <ScrollView>
-        <ShopCard
+        {/* <ShopCard
           onPress={() => {
             console.log("Navigating detail page");
           }}
@@ -113,35 +131,56 @@ const Shop = ({ navigation, route }) => {
           }
           contactInformation={"email : " + shopInfo.email}
           tel={"tel : " + shopInfo.tel}
+        /> */}
+        <StoreCard
+          onPress={() => {
+            console.log("상점 정보 페이지로 이동");
+          }}
+          image={store_image_url}
+          title={shopInfo.store_name}
+          description={
+            shopInfo.zipcode +
+            "  " +
+            shopInfo.road_address +
+            " , " +
+            shopInfo.detail_address
+          }
+          contactInformation={"email : " + shopInfo.email}
+          tel={"tel : " + shopInfo.tel}
         />
-        {/* <StoreCard /> */}
-        <Button title="구독하기" />
+        <LowContainer>
+          <BlackButton icon="call" text="연락하기" />
+          <BlackButton icon="notifications" text="구독하기" />
+          <BlackButton icon="newspaper" text="리뷰쓰기" />
+        </LowContainer>
         <Contour />
-        <FlatList
-          data={category}
-          keyExtractor={(item) => item.id.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <CustomButton
-              key={item.id}
-              containerStyle={{
-                width: 60, // 원하는 크기로 지정
-                height: 60,
-                borderRadius: 8,
-                marginRight: 16,
-                backgroundColor: item.id == categoryKey ? "black" : "#727272",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={() => {
-                setCategoryKey(item.id);
-              }}
-              iconName={item.name}
-              title={item.title}
-            />
-          )}
-        />
+        <BoxContainer>
+          <FlatList
+            data={category}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <CustomButton
+                key={item.id}
+                containerStyle={{
+                  width: 60, // 원하는 크기로 지정
+                  height: 60,
+                  borderRadius: 8,
+                  marginRight: 16,
+                  backgroundColor: item.id == categoryKey ? "black" : "#727272",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => {
+                  setCategoryKey(item.id);
+                }}
+                iconName={item.name}
+                title={item.title}
+              />
+            )}
+          />
+        </BoxContainer>
 
         {categoryKey == 1 && (
           <View>
@@ -172,5 +211,21 @@ const Shop = ({ navigation, route }) => {
     </Container>
   );
 };
-
+const styles = StyleSheet.create({
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "black",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  iconContainer: {
+    marginRight: 5,
+  },
+  text: {
+    color: "white",
+    fontWeight: "bold",
+  },
+});
 export default Shop;

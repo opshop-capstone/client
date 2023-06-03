@@ -21,6 +21,12 @@ const ItemContainer = styled.View`
   overflow: auto;
   flex-wrap: wrap;
 `;
+
+const Contour = styled.View`
+  border-bottom-width: 2px;
+  border-color: ${({ theme }) => theme.imgBackground};
+`;
+
 const popularSearchTerms = ["폴로", "겐조", "마크곤잘레스", "나이키"];
 
 const recentlyViewedProducts = [
@@ -124,6 +130,7 @@ const SearchPage = () => {
             renderItem={renderPopularSearchTerm}
           />
         </View>
+        <Contour />
         <Text style={{ fontSize: 18, fontWeight: "bold", margin: 10 }}>
           검색 결과
         </Text>
@@ -182,6 +189,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    margin: 10,
   },
   input: {
     flex: 1,
@@ -189,7 +197,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   button: {
-    backgroundColor: "gray",
+    backgroundColor: "black",
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 5,

@@ -8,7 +8,21 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
+
+const Contour = styled.View`
+  border-bottom-width: 2px;
+  border-color: ${({ theme }) => theme.imgBackground};
+`;
+const ItemContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 10px;
+  align-items: center;
+  overflow: auto;
+  flex-wrap: wrap;
+`;
 
 const PopularProducts = ({ navigation }) => {
   const [itemList, setItemList] = useState([]);
@@ -70,7 +84,15 @@ const PopularProducts = ({ navigation }) => {
 
   return (
     <>
-      <Text style={styles.styledText}>좋아요 순으로 정렬됩니다.</Text>
+      <ItemContainer>
+        <TouchableOpacity style={styles.activeButton} onPress={() => {}}>
+          <Text style={styles.buttonText}>좋아요 순으로 정렬</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => {}}>
+          <Text style={styles.buttonText}>가격 순으로 정렬</Text>
+        </TouchableOpacity>
+      </ItemContainer>
+      <Contour />
       <FlatList
         data={itemList}
         keyExtractor={(item) => item.product_id}
@@ -87,11 +109,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
     paddingHorizontal: 16,
+    marginHorizontal: 16,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderColor: "grey",
+
+    // 그림자
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   likesContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 10,
+    marginRight: 20,
   },
   likesText: {
     fontSize: 16,
@@ -112,10 +145,11 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 8,
     resizeMode: "contain",
+    marginBottom: 5,
   },
   detailsContainer: {
     flex: 1,
-    marginLeft: 10,
+    marginLeft: 20,
   },
   productName: {
     fontSize: 16,
@@ -130,6 +164,22 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     color: "black",
+  },
+  activeButton: {
+    backgroundColor: "black",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  button: {
+    backgroundColor: "gray",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });
 

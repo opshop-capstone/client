@@ -2,27 +2,21 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import Button from "./Button";
 
-const StoreCard = () => {
+const StoreCard = ({ image, title, description, contactInformation, tel }) => {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: "https://placehold.it/300x150" }}
+          source={{ uri: image }}
           style={styles.image}
           resizeMode="cover"
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.storeName}>상점 이름</Text>
-        <Text style={styles.storeNumber}>전화번호</Text>
-        <Text style={styles.instagramId}>인스타그램 아이디</Text>
-        <Text
-          style={styles.storeAddress}
-          numberOfLines={1}
-          ellipsizeMode="tail"
-        >
-          매장주소
-        </Text>
+        <Text style={styles.storeName}>{title}</Text>
+        <Text style={styles.storeNumber}>{tel}</Text>
+        <Text style={styles.instagramId}>{contactInformation}</Text>
+        <Text style={styles.storeAddress}>{description}</Text>
         {/* <Button title="상점 구독하기" /> */}
       </View>
     </View>
@@ -48,7 +42,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   imageContainer: {
-    height: "70%",
+    height: "60%",
+    borderBottomWidth: 1,
   },
   image: {
     width: "100%",
@@ -73,8 +68,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   storeAddress: {
+    margin: 5,
     color: "grey",
-    fontSize: 16,
+    fontSize: 14,
   },
 });
 
