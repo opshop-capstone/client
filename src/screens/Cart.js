@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import styled from "styled-components";
 import { Button } from "../components";
@@ -49,6 +50,7 @@ const ButtonIcon = styled(Feather).attrs({
 
 const Cart = ({ navigation }) => {
   const [remove, setRemove] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const { cartItems, setCartItems } = useContext(ItemContext);
   const removeItem = (product_id) => {
     axios({
@@ -110,7 +112,7 @@ const Cart = ({ navigation }) => {
     } finally {
       spinner.stop();
     }
-  }, [remove]);
+  }, [remove, refresh]);
 
   let sum = 0;
 
@@ -125,6 +127,12 @@ const Cart = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* <TouchableOpacity
+        onPress={() => {
+        }}
+      >
+        <StyledText>새로고침</StyledText>
+      </TouchableOpacity> */}
       <StyledText>{cartItems.length}개 상품</StyledText>
       <ScrollView>
         {cartItems.map((item) => (
@@ -138,9 +146,28 @@ const Cart = ({ navigation }) => {
             </View>
             <TouchableOpacity
               onPress={() => {
-                console.log(item);
-                console.log(item.product_id);
-                removeItem(item.product_id);
+                Alert.alert(
+                  "해당 상품을 장바구니에서 삭제하시겠어요?",
+                  "맞으시면 '삭제'를 눌러주세요.",
+                  [
+                    {
+                      text: "아니요",
+
+                      style: "cancel",
+                    },
+                    {
+                      text: "삭제",
+                      onPress: () => {
+                        console.log(item);
+                        console.log(item.product_id);
+                        removeItem(item.product_id);
+                      },
+                    },
+                  ]
+                );
+                // console.log(item);
+                // console.log(item.product_id);
+                // removeItem(item.product_id);
               }}
               style={styles.deleteButton}
             >
@@ -151,7 +178,15 @@ const Cart = ({ navigation }) => {
         ))}
       </ScrollView>
       <TotalPrice>
-        <StyledText style={{ fontSize: 20, color: "grey" }}>합계 :</StyledText>
+        <TouchableOpacity
+          onPress={() => {
+            setRefresh(!refresh);
+          }}
+        >
+          <StyledText style={{ fontSize: 20, color: "grey" }}>
+            합계 :
+          </StyledText>
+        </TouchableOpacity>
         <StyledText>{sum.toLocaleString()} 원</StyledText>
       </TotalPrice>
       <FixContainer>

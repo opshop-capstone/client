@@ -22,7 +22,11 @@ const Auth = () => {
       <Stack.Screen
         name="회원가입"
         component={Signup}
-        options={{ headerTitleAlign: "center", headerBackTitleVisible: false }}
+        options={{
+          headerTitleAlign: "center",
+          headerBackTitleVisible: false,
+          headerTintColor: "black",
+        }}
       />
       <Stack.Screen
         name="비밀번호찾기"

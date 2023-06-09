@@ -5,11 +5,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Card } from "react-native-elements";
 import styled from "styled-components";
 import { ItemContext, UserContext } from "../contexts";
-import { Button } from "../components";
+import { Button, ButtonNoFlex, ColorfulText } from "../components";
 import axios from "axios";
 
 const TotalPrice = styled.View`
@@ -28,9 +29,16 @@ const OrderHistory = ({ navigation, route }) => {
   const { cartItems, setCartItems } = useContext(ItemContext);
   const { user } = useContext(UserContext);
   const [orderList, setOrderList] = useState([]);
+  const [refresh, setRefresh] = useState(true);
+  const [cancelOrder, setCancelOrder] = useState([]);
 
   let sum = 0;
 
+  const result = () => {
+    orderList.filter((item) => {
+      item.status == "CANCELED";
+    });
+  };
   cartItems.map((item) => {
     sum += parseFloat(item.price);
   });
@@ -50,7 +58,7 @@ const OrderHistory = ({ navigation, route }) => {
           const result = response.data.result;
           if (result) {
             setOrderList(result);
-            console.log(result);
+            // console.log(result);
           }
         })
         .catch(function (error) {
@@ -66,7 +74,31 @@ const OrderHistory = ({ navigation, route }) => {
         isMount = false;
       };
     }
-  }, []);
+  }, [refresh]);
+
+  const handleCancel = async (orderId) => {
+    await axios({
+      method: "post",
+      url: `http://opshop.shop:3000/opshop/mypage/order-cancel/${orderId}`,
+      headers: {
+        "x-access-token": `${user?.jwt}`,
+      },
+    })
+      .then((response) => {
+        if (response) {
+          console.log(response.data);
+        } else {
+          alert("Error", response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        console.log(err.name);
+        console.log(err.stack);
+
+        alert("주문하기 실패");
+      });
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -76,7 +108,10 @@ const OrderHistory = ({ navigation, route }) => {
               styles.tab,
               activeTab === "orderHistory" && styles.activeTab,
             ]}
-            onPress={() => handleTabChange("orderHistory")}
+            onPress={() => {
+              handleTabChange("orderHistory");
+              setRefresh(!refresh);
+            }}
           >
             <Text style={styles.tabText}>주문 내역</Text>
           </TouchableOpacity>
@@ -94,7 +129,12 @@ const OrderHistory = ({ navigation, route }) => {
               styles.tab,
               activeTab === "orderCancellation" && styles.activeTab,
             ]}
-            onPress={() => handleTabChange("orderCancellation")}
+            onPress={() => {
+              handleTabChange("orderCancellation");
+              result();
+              console.log(cancelOrder[0]);
+              setRefresh(!refresh);
+            }}
           >
             <Text style={styles.tabText}>주문 취소</Text>
           </TouchableOpacity>
@@ -114,21 +154,36 @@ const OrderHistory = ({ navigation, route }) => {
                   <Card.Divider />
                   <StyledText>{a.product_name}</StyledText>
                   <StyledText>가격 : {a.price.toLocaleString()}원</StyledText>
-                  <StyledText>주문자 : 박상호 님</StyledText>
+                  <StyledText>주문자 : {a.orderer} 님</StyledText>
+
+                  <StyledText>배송지명 : {a.address_name}</StyledText>
+                  <StyledText>{a.address}</StyledText>
                   <TotalPrice style={{ marginTop: 9 }}>
-                    <TouchableOpacity
+                    <ColorfulText value={a.status} />
+                    {/* <TouchableOpacity
                       style={styles.stateButton}
                       onPress={() => {
-                        navigation.navigate("OrderDetail", {
-                          orderId: a.order_id,
-                        });
+                        Alert.alert(
+                          "해당 주문을 취소하시겠어요?",
+                          "맞으시면 '취소'를 눌러주세요.",
+                          [
+                            {
+                              text: "아니요",
+
+                              style: "cancel",
+                            },
+                            {
+                              text: "취소",
+                              onPress: () => {
+                                handleCancel(a.order_id);
+                              },
+                            },
+                          ]
+                        );
                       }}
                     >
-                      <Text style={{ color: "white" }}>상세 조회</Text>
-                    </TouchableOpacity>
-                    <Text style={{ color: "green", fontWeight: "bold" }}>
-                      {a.status}
-                    </Text>
+                      <Text style={{ color: "white" }}>주문 취소</Text>
+                    </TouchableOpacity> */}
                   </TotalPrice>
                 </Card>
               );
@@ -137,7 +192,54 @@ const OrderHistory = ({ navigation, route }) => {
         )}
         {activeTab === "shippingTracking" && <View>{<Text>배송</Text>}</View>}
         {activeTab === "orderCancellation" && (
-          <View>{/* Render order cancellation content */}</View>
+          <View style={styles.container}>
+            {orderList.map((a, i) => {
+              return (
+                <Card containerStyle={styles.card} key={i}>
+                  <TotalPrice>
+                    <Card.Title style={styles.cardTitle}>
+                      주문 번호 : {a.order_id}
+                    </Card.Title>
+                    <Text style={styles.cardText}>{a.date}</Text>
+                  </TotalPrice>
+                  <Card.Divider />
+                  <StyledText>{a.product_name}</StyledText>
+                  <StyledText>가격 : {a.price.toLocaleString()}원</StyledText>
+                  <StyledText>주문자 : {a.orderer} 님</StyledText>
+
+                  <StyledText>배송지명 : {a.address_name}</StyledText>
+                  <StyledText>{a.address}</StyledText>
+                  <TotalPrice style={{ marginTop: 9 }}>
+                    <ColorfulText value={a.status} />
+                    <TouchableOpacity
+                      style={styles.stateButton}
+                      onPress={() => {
+                        Alert.alert(
+                          "해당 주문을 취소하시겠어요?",
+                          "맞으시면 '취소'를 눌러주세요.",
+                          [
+                            {
+                              text: "아니요",
+
+                              style: "cancel",
+                            },
+                            {
+                              text: "취소",
+                              onPress: () => {
+                                handleCancel(a.order_id);
+                              },
+                            },
+                          ]
+                        );
+                      }}
+                    >
+                      <Text style={{ color: "white" }}>주문 취소</Text>
+                    </TouchableOpacity>
+                  </TotalPrice>
+                </Card>
+              );
+            })}
+          </View>
         )}
       </ScrollView>
     </View>

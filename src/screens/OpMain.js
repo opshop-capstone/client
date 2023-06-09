@@ -215,7 +215,7 @@ const OpMain = ({ navigation }) => {
         <BoxContainer>
           <StyledText>당신을 위한 추천 아이템</StyledText>
           <ItemContainer>
-            {shopItem == undefined ? (
+            {shopItem == "" ? (
               <StyledText>로그인 후 제공됩니다.</StyledText>
             ) : (
               shopItem.map((a, i) => {

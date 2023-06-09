@@ -85,10 +85,28 @@ const PopularProducts = ({ navigation }) => {
   return (
     <>
       <ItemContainer>
-        <TouchableOpacity style={styles.activeButton} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.activeButton}
+          onPress={() => {
+            setItemList(
+              itemList.sort((a, b) => {
+                b.like_count - a.like_count;
+              })
+            );
+          }}
+        >
           <Text style={styles.buttonText}>좋아요 순으로 정렬</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setItemList(
+              itemList.sort((a, b) => {
+                a.price - b.price;
+              })
+            );
+          }}
+        >
           <Text style={styles.buttonText}>가격 순으로 정렬</Text>
         </TouchableOpacity>
       </ItemContainer>

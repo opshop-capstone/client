@@ -128,7 +128,7 @@ const Order = ({ navigation, route }) => {
       params: {
         ///////버전 1
         itemId: itemIdArr.join(),
-        addressId: 1,
+        addressId: address[0].address_id,
         itemPrice: itemPriceArr.join(),
         quantity: cartItems.length,
         totalPrice: total_price,

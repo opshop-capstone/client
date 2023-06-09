@@ -74,8 +74,12 @@ const Goods = ({ route, product, navigation }) => {
       },
     })
       .then((response) => {
-        alert(response.data.message);
-        handleAddToCart();
+        console.log(response.data);
+        if (response.data.code == 7002) {
+          alert(response.data.message);
+        } else {
+          handleAddToCart();
+        }
       })
       .catch((err) => {
         console.log(err.message);
@@ -98,7 +102,7 @@ const Goods = ({ route, product, navigation }) => {
             response.data.result.images[0].product_image.split(",");
 
           if (result) {
-            console.log(response.data.result);
+            // console.log(response.data.result);
             setStoreName(result.store_name);
             setTitle(result.title);
             setPrice(result.price);
@@ -217,25 +221,25 @@ const Goods = ({ route, product, navigation }) => {
             marginLeft: 10,
           }}
           onPress={() => {
-            let duplication = cartItems.findIndex((a) => {
-              console.log(a);
-              return a.name == title;
-            });
-            const addToCart = () => {
-              setCartItems([
-                ...cartItems,
-                {
-                  id: cartItems.length + 1,
-                  name: title,
-                  price: `${productPrice}`,
-                  image: `${imageUrl}`,
-                },
-              ]);
-              AddToCartHandler();
-            };
-            duplication == -1
-              ? addToCart()
-              : alert("장바구니에 같은 상품이 존재해요!");
+            // let duplication = cartItems.findIndex((a) => {
+            //   console.log(a);
+            //   return a.name == title;
+            // });
+            // const addToCart = () => {
+            //   setCartItems([
+            //     ...cartItems,
+            //     {
+            //       id: cartItems.length + 1,
+            //       name: title,
+            //       price: `${productPrice}`,
+            //       image: `${imageUrl}`,
+            //     },
+            //   ]);
+            AddToCartHandler();
+            // };
+            // duplication == -1
+            //   ? addToCart()
+            //   : alert("장바구니에 같은 상품이 존재해요!");
           }}
           title="장바구니에 담기"
         />

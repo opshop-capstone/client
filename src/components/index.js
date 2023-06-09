@@ -14,6 +14,7 @@ import StoreCard from "./StoreCard";
 import Spinner from "./Spinner";
 import Category from "./Category";
 import PopularProducts from "./PopularProducts";
+import ColorfulText from "./ColorfulText";
 
 export {
   Button,
@@ -31,4 +32,5 @@ export {
   Spinner,
   Category,
   PopularProducts,
+  ColorfulText,
 };

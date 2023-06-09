@@ -8,6 +8,7 @@ import {
   ScrollView,
   Modal,
   TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Card, SocialIcon } from "react-native-elements";
 import styled from "styled-components";
@@ -18,9 +19,12 @@ import {
   Input,
   ButtonNoFlex,
 } from "../components";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import { ItemContext, ProgressContext, UserContext } from "../contexts";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
+
 import Postcode from "@actbase/react-daum-postcode";
 
 const InputContainer = styled.View`
@@ -63,6 +67,7 @@ const StyledButton = styled.Button`
 
 const EditAddress = ({ navigation, route }) => {
   const orderKey = route.params.orderKey;
+  const name = route.params.name;
   const { user, setUserInfo } = useContext(UserContext);
   const { spinner } = useContext(ProgressContext);
 
@@ -203,7 +208,7 @@ const EditAddress = ({ navigation, route }) => {
             <ButtonIcon />
           </TotalPrice>
           <Card.Divider />
-          <Text style={styles.cardText}>Email : email@example.com </Text>
+          <Text style={styles.cardText}>Email : {user.userEmail} </Text>
           <Text style={styles.cardText}>PW : ************* </Text>
         </Card>
         <StyledText>배송지</StyledText>
@@ -375,7 +380,6 @@ const EditAddress = ({ navigation, route }) => {
                 />
               </>
             )}
-
             <View style={styles.modalButtonsContainer}>
               <Button
                 title="변경"
@@ -512,6 +516,7 @@ const EditAddress = ({ navigation, route }) => {
                 />
               </>
             )}
+            {/* //name, road_address, detail_address, zipcode */}
 
             <View style={styles.modalButtonsContainer}>
               <Button
@@ -519,9 +524,9 @@ const EditAddress = ({ navigation, route }) => {
                 onPress={() => {
                   postAddress(
                     addressNickname,
-                    zipcode,
                     shippingAddress,
-                    detailAddress
+                    detailAddress,
+                    zipcode
                   );
                   setAddress([
                     ...address,

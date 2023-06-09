@@ -49,12 +49,6 @@ export default function App() {
   //   }
   // }, [{ user }]);
   const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "랄프로렌 울 모직 여자 M",
-      price: "59000",
-      image: "https://m.oldlook.co.kr/web/product/big/ok31400.JPG",
-    },
     // {
     //   id: 2,
     //   name: "Product 2",

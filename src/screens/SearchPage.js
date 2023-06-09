@@ -134,6 +134,7 @@ const SearchPage = () => {
         <Text style={{ fontSize: 18, fontWeight: "bold", margin: 10 }}>
           검색 결과
         </Text>
+        {searchItem == "" ? <Text>검색결과가 없습니다.</Text> : <></>}
         <ItemContainer>
           {searchItem.map((a, i) => {
             return (

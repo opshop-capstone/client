@@ -32,6 +32,7 @@ const SUBSCRIBED_STORES = [
 ];
 
 const SubscribeShop = ({ navigation }) => {
+  const [subscribedStore, setSubscribedStore] = useState([]);
   const [showNewProducts, setShowNewProducts] = useState(true);
   const [likedProducts, setLikedProducts] = useState([]);
   const [refresh, setRefresh] = useState(1);
@@ -52,6 +53,37 @@ const SubscribeShop = ({ navigation }) => {
 
           if (result) {
             setLikedProducts(result);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          console.log("error");
+          alert(error);
+        });
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    } finally {
+      return () => {
+        isMount = false;
+      };
+    }
+  }, [refresh]);
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "get",
+        url: "http://opshop.shop:3000/opshop/mypage/subscribed",
+        headers: {
+          "x-access-token": `${user?.jwt}`,
+        },
+      })
+        .then(function (response) {
+          const result = response.data.result;
+
+          if (result) {
+            setSubscribedStore(result);
           }
         })
         .catch(function (error) {
@@ -106,17 +138,17 @@ const SubscribeShop = ({ navigation }) => {
       <View style={styles.subscribedStoresContainer}>
         <Text style={styles.newProductsTitle}>내가 구독한 상점 </Text>
         <FlatList
-          data={SUBSCRIBED_STORES}
-          keyExtractor={(item) => item.id.toString()}
+          data={subscribedStore}
+          keyExtractor={(item) => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
             <View style={styles.storeItemContainer}>
               <Image
-                source={{ uri: item.imageUrl }}
+                source={{ uri: item.store_image_url }}
                 style={styles.storeItemImage}
               />
-              <Text style={styles.storeItemName}>ㅇㅇ</Text>
+              <Text style={styles.store_name}>ㅇㅇ</Text>
             </View>
           )}
         />

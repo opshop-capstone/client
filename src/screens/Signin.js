@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { ProgressContext, UserContext } from "../contexts";
 import { validateEmail, removeWhitespace } from "../utils";
 import axios from "axios";
+import { TouchableOpacity } from "react-native";
 
 const Container = styled.View`
   flex: 1;
@@ -65,20 +66,23 @@ const Signin = ({ navigation }) => {
         .then((response) => {
           console.log(response.data);
           console.log(email);
-          if (response.data.result) {
+          if (response.data.code == 1000) {
             const userId = response.data.result.userId;
             const jwt = response.data.result.jwt;
             const userEmail = email;
             setUserInfo({ userId, userEmail, jwt });
             spinner.stop();
           } else {
-            alert("Error", response.data.message);
+            alert(`${response.data.message}`);
+            spinner.stop();
           }
         })
         .catch((err) => {
           console.log(err.message);
           console.log(err.name);
           console.log(err.stack);
+          spinner.stop();
+
           alert("로그인 실패");
         });
     }, 1000);
@@ -94,15 +98,26 @@ const Signin = ({ navigation }) => {
   //   }
   // };
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView extraScrollHeight={200}>
       <Container insets={insets}>
         <Image
           style={{ width: 200, height: 200 }}
           url="https://ifh.cc/g/M2TJZp.png"
         />
-        <StyledText style={{ fontSize: 28, fontWeight: 500 }}>
-          빈티지 아이콘,
-        </StyledText>
+        <TouchableOpacity
+          onPress={() => {
+            setEmail("capstone@naver.com");
+            setPassword(1234);
+            setTimeout(() => {
+              _handleSigninBtnPress();
+            }, 200);
+          }}
+        >
+          <StyledText style={{ fontSize: 28, fontWeight: 500 }}>
+            빈티지 아이콘,
+          </StyledText>
+        </TouchableOpacity>
+
         <StyledText>구제통합 OP Shop</StyledText>
         <Input
           label="이메일"
@@ -113,6 +128,8 @@ const Signin = ({ navigation }) => {
           onSubmitEditing={() => {
             refPassword.current.focus();
           }}
+          autoCompleteType="email"
+          keyboardType="email-address"
         />
         <Input
           ref={refPassword}

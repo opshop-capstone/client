@@ -68,13 +68,13 @@ const category = [
   { id: 2, name: "shirt", title: "부위별" },
   { id: 4, name: "ios-copy", title: "브랜드별" },
   { id: 5, name: "ios-glasses", title: "패션잡화" },
-  { id: 6, name: "ios-glasses", title: "패션잡화" },
+  { id: 6, name: "bag", title: "럭셔리" },
 ];
 const Shop = ({ navigation, route }) => {
   const storeId = route.params.storeId;
   const store_image_url = route.params.store_image_url;
 
-  const { setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [shopItem, setShopItem] = useState([{ d: "d" }, { b: "d" }]);
   const [shopInfo, setShopInfo] = useState({});
   const { testItems, setTestItems } = useContext(ItemContext);
@@ -88,6 +88,34 @@ const Shop = ({ navigation, route }) => {
         <Text style={styles.text}>{text}</Text>
       </TouchableOpacity>
     );
+  };
+  //구독 & 취소
+  const handleSubscribe = async () => {
+    await axios({
+      method: "post",
+      url: "http://opshop.shop:3000/opshop/stores/subscribe",
+      headers: {
+        "x-access-token": `${user?.jwt}`,
+      },
+      params: {
+        storeId: storeId,
+      },
+    })
+      .then((response) => {
+        if (response) {
+          console.log(response.data);
+          alert(response.data.message);
+        } else {
+          alert("Error", response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        console.log(err.name);
+        console.log(err.stack);
+
+        alert("주문하기 실패");
+      });
   };
   // 동시에 받아오기
   useEffect(() => {
@@ -103,6 +131,7 @@ const Shop = ({ navigation, route }) => {
 
           if (result) {
             setShopItem([...result]);
+            console.log(response2.data.result);
             setShopInfo(...response2.data.result);
             // setTestItems([...result]);
           }
@@ -136,7 +165,7 @@ const Shop = ({ navigation, route }) => {
           onPress={() => {
             console.log("상점 정보 페이지로 이동");
           }}
-          image={store_image_url}
+          image={store_image_url ? store_image_url : shopInfo.store_thumbnail}
           title={shopInfo.store_name}
           description={
             shopInfo.zipcode +
@@ -150,7 +179,11 @@ const Shop = ({ navigation, route }) => {
         />
         <LowContainer>
           <BlackButton icon="call" text="연락하기" />
-          <BlackButton icon="notifications" text="구독하기" />
+          <BlackButton
+            icon="notifications"
+            text="구독하기"
+            onPress={handleSubscribe}
+          />
           <BlackButton icon="newspaper" text="리뷰쓰기" />
         </LowContainer>
         <Contour />
@@ -195,7 +228,7 @@ const Shop = ({ navigation, route }) => {
                     }}
                     url={a.product_thumbnail}
                     productTitle={a.title}
-                    shopName="VINTAGE TALK"
+                    shopName={shopInfo.store_name}
                     price="39,000원"
                   />
                 );

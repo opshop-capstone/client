@@ -51,10 +51,10 @@ const Category = ({ navigation }) => {
   }, [categoryId]);
 
   const categories = [
-    { category: "아우터", category_id: 1 },
+    { category: "상의", category_id: 0 },
     { category: "하의", category_id: 2 },
     { category: "원피스", category_id: 3 },
-    { category: "상의", category_id: 4 },
+    { category: "아우터", category_id: 1 },
     { category: "신발", category_id: 5 },
     { category: "패션잡화", category_id: 6 },
     { category: "럭셔리", category_id: 7 },
