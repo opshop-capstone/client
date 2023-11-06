@@ -106,7 +106,7 @@ const EditAddress = ({ navigation, route }) => {
     });
     axios({
       method: "post",
-      url: `http://opshop.shop:3000/opshop/mypage/address`,
+      url: `http://localhost:3000/opshop/mypage/address`,
       headers: {
         "x-access-token": `${user?.jwt}`,
       },
@@ -143,7 +143,7 @@ const EditAddress = ({ navigation, route }) => {
 
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/mypage/address",
+        url: "http://localhost:3000/opshop/mypage/address",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

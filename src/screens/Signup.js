@@ -65,7 +65,7 @@ const Signup = ({ navigation }) => {
     setTimeout(async () => {
       console.log(email, password, name);
       await axios
-        .post("http://opshop.shop:3000/opshop/join", {
+        .post("http://localhost:3000/opshop/join", {
           email: `${email}`,
           password: `${password}`,
           nickname: `${name}`,

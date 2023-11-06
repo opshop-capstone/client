@@ -93,7 +93,7 @@ const Shop = ({ navigation, route }) => {
   const handleSubscribe = async () => {
     await axios({
       method: "post",
-      url: "http://opshop.shop:3000/opshop/stores/subscribe",
+      url: "http://localhost:3000/opshop/stores/subscribe",
       headers: {
         "x-access-token": `${user?.jwt}`,
       },
@@ -122,8 +122,8 @@ const Shop = ({ navigation, route }) => {
     console.log(storeId);
     axios
       .all([
-        axios.get(`http://opshop.shop:3000/opshop/stores/${storeId}`),
-        axios.get(`http://opshop.shop:3000/opshop/stores/${storeId}/info`),
+        axios.get(`http://localhost:3000/opshop/stores/${storeId}`),
+        axios.get(`http://localhost:3000/opshop/stores/${storeId}/info`),
       ])
       .then(
         axios.spread((response1, response2) => {

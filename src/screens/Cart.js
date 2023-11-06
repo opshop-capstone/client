@@ -55,7 +55,7 @@ const Cart = ({ navigation }) => {
   const removeItem = (product_id) => {
     axios({
       method: "post",
-      url: `http://opshop.shop:3000/opshop/carts/remove?productId=
+      url: `http://localhost:3000/opshop/carts/remove?productId=
          ${product_id} `,
       headers: {
         "x-access-token": `${user?.jwt}`,
@@ -88,7 +88,7 @@ const Cart = ({ navigation }) => {
 
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/carts",
+        url: "http://localhost:3000/opshop/carts",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

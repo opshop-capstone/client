@@ -83,7 +83,7 @@ const OpMain = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/products/reco/lists",
+        url: "http://localhost:3000/opshop/products/reco/lists",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },
@@ -112,7 +112,7 @@ const OpMain = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/mypage/address",
+        url: "http://localhost:3000/opshop/mypage/address",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

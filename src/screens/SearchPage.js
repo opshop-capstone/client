@@ -77,7 +77,7 @@ const SearchPage = () => {
     spinner.start();
     axios({
       method: "get",
-      url: `http://opshop.shop:3000/opshop/products`,
+      url: `http://localhost:3000/opshop/products`,
 
       params: {
         search: searchIs,

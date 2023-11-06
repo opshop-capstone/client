@@ -69,7 +69,7 @@ const PopularShop = ({ route, navigation }) => {
     try {
       // 왜 response.data.result값이 undefined가 오는거지
       axios
-        .get("http://opshop.shop:3000/opshop/stores")
+        .get("http://localhost:3000/opshop/stores")
 
         .then(function (response) {
           const result = response.data.result;
@@ -104,7 +104,7 @@ const PopularShop = ({ route, navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/mypage/liked",
+        url: "http://localhost:3000/opshop/mypage/liked",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

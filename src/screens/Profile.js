@@ -26,7 +26,7 @@ const Profile = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/mypage",
+        url: "http://localhost:3000/opshop/mypage",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

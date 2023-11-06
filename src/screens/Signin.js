@@ -59,7 +59,7 @@ const Signin = ({ navigation }) => {
 
     setTimeout(async () => {
       await axios
-        .post("http://opshop.shop:3000/opshop/login", {
+        .post("http://localhost:3000/opshop/login", {
           email: `${email}`,
           password: `${password}`,
         })

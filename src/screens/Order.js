@@ -121,7 +121,7 @@ const Order = ({ navigation, route }) => {
   const handleOrder = async () => {
     await axios({
       method: "post",
-      url: "http://opshop.shop:3000/opshop/payment",
+      url: "http://localhost:3000/opshop/payment",
       headers: {
         "x-access-token": `${user?.jwt}`,
       },
@@ -158,7 +158,7 @@ const Order = ({ navigation, route }) => {
   //   //상품 하나만 받아올때
   //   axios({
   //     method: "post",
-  //     url: `http://opshop.shop:3000/opshop/payment`,
+  //     url: `http://localhost:3000/opshop/payment`,
   //     headers: {
   //       "x-access-token": `${user?.jwt}`,
   //     },

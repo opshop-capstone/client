@@ -49,7 +49,7 @@ const OrderHistory = ({ navigation, route }) => {
     try {
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/mypage/orders",
+        url: "http://localhost:3000/opshop/mypage/orders",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },
@@ -79,7 +79,7 @@ const OrderHistory = ({ navigation, route }) => {
   const handleCancel = async (orderId) => {
     await axios({
       method: "post",
-      url: `http://opshop.shop:3000/opshop/mypage/order-cancel/${orderId}`,
+      url: `http://localhost:3000/opshop/mypage/order-cancel/${orderId}`,
       headers: {
         "x-access-token": `${user?.jwt}`,
       },

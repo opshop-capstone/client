@@ -63,9 +63,9 @@ const Goods = ({ route, product, navigation }) => {
   const AddToCartHandler = () => {
     axios({
       method: "post",
-      url: `http://opshop.shop:3000/opshop/carts/add`,
+      url: `http://localhost:3000/opshop/carts/add`,
       // url:
-      //   `http://opshop.shop:3000/opshop/carts/add?productId=` + { productId },
+      //   `http://localhost:3000/opshop/carts/add?productId=` + { productId },
       headers: {
         "x-access-token": `${user?.jwt}`,
       },
@@ -93,7 +93,7 @@ const Goods = ({ route, product, navigation }) => {
     try {
       // 상품 상세 api
       axios
-        .get(`http://opshop.shop:3000/opshop/products/${productId}`)
+        .get(`http://localhost:3000/opshop/products/${productId}`)
 
         .then(function (response) {
           const result = response.data.result.info[0];
@@ -144,7 +144,7 @@ const Goods = ({ route, product, navigation }) => {
   const handlelike = async () => {
     await axios({
       method: "post",
-      url: "http://opshop.shop:3000/opshop/products/liked",
+      url: "http://localhost:3000/opshop/products/liked",
       headers: {
         "x-access-token": `${user?.jwt}`,
       },

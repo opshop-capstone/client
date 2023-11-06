@@ -43,7 +43,7 @@ const SubscribeShop = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/mypage/liked",
+        url: "http://localhost:3000/opshop/mypage/liked",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },
@@ -74,7 +74,7 @@ const SubscribeShop = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://opshop.shop:3000/opshop/mypage/subscribed",
+        url: "http://localhost:3000/opshop/mypage/subscribed",
         headers: {
           "x-access-token": `${user?.jwt}`,
         },
@@ -105,7 +105,7 @@ const SubscribeShop = ({ navigation }) => {
   //   try {
   //     axios({
   //       method: "get",
-  //       url: "http://opshop.shop:3000/opshop/mypage/subscribe",
+  //       url: "http://localhost:3000/opshop/mypage/subscribe",
   //       headers: {
   //         "x-access-token": `${user?.jwt}`,
   //       },
