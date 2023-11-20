@@ -30,7 +30,7 @@ const PopularProducts = ({ navigation }) => {
     try {
       // 왜 response.data.result값이 undefined가 오는거지
       axios
-        .get("http://opshop.shop:3000/opshop/products")
+        .get("http://localhost:3000/opshop/products")
 
         .then(function (response) {
           const result = response.data.result;
