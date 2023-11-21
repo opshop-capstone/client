@@ -14,6 +14,8 @@ import { ItemContext, ProgressContext, UserContext } from "../contexts";
 import { Feather } from "@expo/vector-icons";
 import axios from "axios";
 import { CheckBox } from "react-native-elements";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const FixContainer = styled.View`
   position: fixed;
@@ -55,7 +57,9 @@ const Cart = ({ navigation }) => {
   const removeItem = (product_id) => {
     axios({
       method: "post",
-      url: `http://localhost:3000/opshop/carts/remove?productId=
+      url: `http://${manifest.debuggerHost
+        .split(":")
+        .shift()}:3000/opshop/carts/remove?productId=
          ${product_id} `,
       headers: {
         "x-access-token": `${user?.jwt}`,
@@ -88,7 +92,9 @@ const Cart = ({ navigation }) => {
 
       axios({
         method: "get",
-        url: "http://localhost:3000/opshop/carts",
+        url: `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:3000/opshop/carts`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

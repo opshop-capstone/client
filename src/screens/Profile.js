@@ -5,6 +5,8 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import axios from "axios";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const Container = styled.View`
   flex: 1;
@@ -26,7 +28,9 @@ const Profile = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://localhost:3000/opshop/mypage",
+        url: `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:3000/opshop/mypage`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

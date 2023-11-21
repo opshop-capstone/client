@@ -13,6 +13,8 @@ import styled from "styled-components/native";
 import { ItemCard } from "../components";
 import axios from "axios";
 import { ProgressContext } from "../contexts";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const ItemContainer = styled.View`
   flex-direction: row;
@@ -77,7 +79,9 @@ const SearchPage = () => {
     spinner.start();
     axios({
       method: "get",
-      url: `http://localhost:3000/opshop/products`,
+      url: `http://${manifest.debuggerHost
+        .split(":")
+        .shift()}:3000/opshop/products`,
 
       params: {
         search: searchIs,

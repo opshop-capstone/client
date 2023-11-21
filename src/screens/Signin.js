@@ -8,6 +8,9 @@ import { validateEmail, removeWhitespace } from "../utils";
 import axios from "axios";
 import { TouchableOpacity } from "react-native";
 
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
+
 const Container = styled.View`
   flex: 1;
   justify-content: center;
@@ -59,10 +62,15 @@ const Signin = ({ navigation }) => {
 
     setTimeout(async () => {
       await axios
-        .post("http://localhost:3000/opshop/login", {
-          email: `${email}`,
-          password: `${password}`,
-        })
+        .post(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:3000/opshop/login`,
+          {
+            email: `${email}`,
+            password: `${password}`,
+          }
+        )
         .then((response) => {
           console.log(response.data);
           console.log(email);

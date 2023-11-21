@@ -6,6 +6,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { UserContext } from "../contexts";
 import { Alert, TextInput } from "react-native";
 import axios from "axios";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const Container = styled.View`
   flex: 1;
@@ -65,11 +67,14 @@ const Signup = ({ navigation }) => {
     setTimeout(async () => {
       console.log(email, password, name);
       await axios
-        .post("http://localhost:3000/opshop/join", {
-          email: `${email}`,
-          password: `${password}`,
-          nickname: `${name}`,
-        })
+        .post(
+          `http://${manifest.debuggerHost.split(":").shift()}:3000/opshop/join`,
+          {
+            email: `${email}`,
+            password: `${password}`,
+            nickname: `${name}`,
+          }
+        )
         .then((response) => {
           if (password !== passwordConfirm) {
             alert("비밀번호와 비밀번호 확인이 같지 않습니다.");

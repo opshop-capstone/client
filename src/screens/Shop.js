@@ -20,6 +20,8 @@ import {
 } from "react-native";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const Container = styled.View`
   flex: 1;
@@ -93,7 +95,9 @@ const Shop = ({ navigation, route }) => {
   const handleSubscribe = async () => {
     await axios({
       method: "post",
-      url: "http://localhost:3000/opshop/stores/subscribe",
+      url: `http://${manifest.debuggerHost
+        .split(":")
+        .shift()}:3000/opshop/stores/subscribe`,
       headers: {
         "x-access-token": `${user?.jwt}`,
       },
@@ -122,8 +126,16 @@ const Shop = ({ navigation, route }) => {
     console.log(storeId);
     axios
       .all([
-        axios.get(`http://localhost:3000/opshop/stores/${storeId}`),
-        axios.get(`http://localhost:3000/opshop/stores/${storeId}/info`),
+        axios.get(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:3000/opshop/stores/${storeId}`
+        ),
+        axios.get(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:3000/opshop/stores/${storeId}/info`
+        ),
       ])
       .then(
         axios.spread((response1, response2) => {

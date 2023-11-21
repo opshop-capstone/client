@@ -13,6 +13,8 @@ import { Button, ItemCard } from "../components";
 import axios from "axios";
 import { ProgressContext, UserContext } from "../contexts";
 import { Ionicons } from "@expo/vector-icons";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const Container = styled.View`
   flex: 1;
@@ -43,7 +45,9 @@ const SubscribeShop = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://localhost:3000/opshop/mypage/liked",
+        url: `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:3000/opshop/mypage/liked`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },
@@ -74,7 +78,9 @@ const SubscribeShop = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://localhost:3000/opshop/mypage/subscribed",
+        url: `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:3000/opshop/mypage/subscribed`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

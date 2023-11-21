@@ -15,6 +15,8 @@ import { ItemContext, UserContext } from "../contexts";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import * as Linking from "expo-linking";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const FixContainer = styled.View`
   position: fixed;
@@ -121,7 +123,9 @@ const Order = ({ navigation, route }) => {
   const handleOrder = async () => {
     await axios({
       method: "post",
-      url: "http://localhost:3000/opshop/payment",
+      url: `http://${manifest.debuggerHost
+        .split(":")
+        .shift()}:3000/opshop/payment`,
       headers: {
         "x-access-token": `${user?.jwt}`,
       },

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import axios from "axios";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 import {
   View,
@@ -63,7 +65,9 @@ const Goods = ({ route, product, navigation }) => {
   const AddToCartHandler = () => {
     axios({
       method: "post",
-      url: `http://localhost:3000/opshop/carts/add`,
+      url: `http://${manifest.debuggerHost
+        .split(":")
+        .shift()}:3000/opshop/carts/add`,
       // url:
       //   `http://localhost:3000/opshop/carts/add?productId=` + { productId },
       headers: {
@@ -93,7 +97,11 @@ const Goods = ({ route, product, navigation }) => {
     try {
       // 상품 상세 api
       axios
-        .get(`http://localhost:3000/opshop/products/${productId}`)
+        .get(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:3000/opshop/products/${productId}`
+        )
 
         .then(function (response) {
           const result = response.data.result.info[0];
@@ -144,7 +152,9 @@ const Goods = ({ route, product, navigation }) => {
   const handlelike = async () => {
     await axios({
       method: "post",
-      url: "http://localhost:3000/opshop/products/liked",
+      url: `http://${manifest.debuggerHost
+        .split(":")
+        .shift()}:3000/opshop/products/liked`,
       headers: {
         "x-access-token": `${user?.jwt}`,
       },

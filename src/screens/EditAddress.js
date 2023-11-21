@@ -24,6 +24,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { ItemContext, ProgressContext, UserContext } from "../contexts";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 import Postcode from "@actbase/react-daum-postcode";
 
@@ -106,7 +108,9 @@ const EditAddress = ({ navigation, route }) => {
     });
     axios({
       method: "post",
-      url: `http://localhost:3000/opshop/mypage/address`,
+      url: `http://${manifest.debuggerHost
+        .split(":")
+        .shift()}:3000/opshop/mypage/address`,
       headers: {
         "x-access-token": `${user?.jwt}`,
       },
@@ -143,7 +147,9 @@ const EditAddress = ({ navigation, route }) => {
 
       axios({
         method: "get",
-        url: "http://localhost:3000/opshop/mypage/address",
+        url: `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:3000/opshop/mypage/address`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

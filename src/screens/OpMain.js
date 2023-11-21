@@ -8,6 +8,8 @@ import { ScrollView } from "react-native";
 import axios from "axios";
 import { ItemContext, UserContext } from "../contexts";
 import { Text } from "react-native";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const Container = styled.View`
   flex: 1;
@@ -83,7 +85,9 @@ const OpMain = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://localhost:3000/opshop/products/reco/lists",
+        url: `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:3000/opshop/products/reco/lists`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },
@@ -112,7 +116,9 @@ const OpMain = ({ navigation }) => {
     try {
       axios({
         method: "get",
-        url: "http://localhost:3000/opshop/mypage/address",
+        url: `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:30000/opshop/mypage/address`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },

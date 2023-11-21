@@ -12,6 +12,8 @@ import styled from "styled-components";
 import { ItemContext, UserContext } from "../contexts";
 import { Button, ButtonNoFlex, ColorfulText } from "../components";
 import axios from "axios";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const TotalPrice = styled.View`
   flex-direction: row;
@@ -49,7 +51,9 @@ const OrderHistory = ({ navigation, route }) => {
     try {
       axios({
         method: "get",
-        url: "http://localhost:3000/opshop/mypage/orders",
+        url: `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:3000/opshop/mypage/orders`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },
@@ -79,7 +83,9 @@ const OrderHistory = ({ navigation, route }) => {
   const handleCancel = async (orderId) => {
     await axios({
       method: "post",
-      url: `http://localhost:3000/opshop/mypage/order-cancel/${orderId}`,
+      url: `http://${manifest.debuggerHost
+        .split(":")
+        .shift()}:3000/opshop/mypage/order-cancel/${orderId}`,
       headers: {
         "x-access-token": `${user?.jwt}`,
       },

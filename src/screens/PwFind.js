@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Image, Input } from "../components";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const Container = styled.View`
 flex : 1;

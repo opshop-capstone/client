@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
+import Constants from "expo-constants"; //현재 단말기의 시스템 정보를 불러오기 위함
+const { manifest } = Constants;
 
 const Contour = styled.View`
   border-bottom-width: 2px;
@@ -30,7 +32,11 @@ const PopularProducts = ({ navigation }) => {
     try {
       // 왜 response.data.result값이 undefined가 오는거지
       axios
-        .get("http://localhost:3000/opshop/products")
+        .get(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:3000/opshop/products`
+        )
 
         .then(function (response) {
           const result = response.data.result;
