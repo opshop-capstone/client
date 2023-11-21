@@ -53,19 +53,19 @@ const StyledText = styled.Text`
 const sliderTouch = (index, navigation) => {
   switch (index) {
     case 0:
-      navigation.navigate("Shop", { storeId: 3 });
+      navigation.navigate("Shop", { storeId: 4 });
       break;
     case 1:
-      navigation.navigate("Shop", { storeId: 2 });
+      navigation.navigate("Shop", { storeId: 4 });
       break;
     case 2:
-      navigation.navigate("Shop", { storeId: 5 });
+      navigation.navigate("Shop", { storeId: 7 });
       break;
     case 3:
-      navigation.navigate("Shop", { storeId: 5 });
+      navigation.navigate("Shop", { storeId: 7 });
       break;
     case 4:
-      navigation.navigate("Shop", { storeId: 4 });
+      navigation.navigate("Shop", { storeId: 6 });
       break;
     default:
       break;
