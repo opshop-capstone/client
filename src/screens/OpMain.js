@@ -118,7 +118,7 @@ const OpMain = ({ navigation }) => {
         method: "get",
         url: `http://${manifest.debuggerHost
           .split(":")
-          .shift()}:30000/opshop/mypage/address`,
+          .shift()}:3000/opshop/mypage/address`,
         headers: {
           "x-access-token": `${user?.jwt}`,
         },
